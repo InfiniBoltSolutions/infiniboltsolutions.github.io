@@ -12,7 +12,7 @@
             --light-gray: #333333;
             --accent-white: #ffffff;
             --text-gray: #cccccc;
-            --navy-blue: #0A192F; /* Added Navy Blue for header */
+            --navy-blue: #0A192F;
         }
 
         body {
@@ -21,6 +21,7 @@
             background-color: var(--charcoal);
             color: var(--accent-white);
             line-height: 1.6;
+            overflow-x: hidden; /* Prevents logo bleed from causing scroll */
         }
 
         header {
@@ -28,33 +29,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--navy-blue); /* Applied Navy Blue here */
+            background-color: var(--navy-blue);
             border-bottom: 1px solid var(--light-gray);
         }
 
-        .logo {
+        .logo-text {
             font-weight: 700;
             font-size: 1.5rem;
             letter-spacing: -1px;
         }
 
         .hero {
-            padding: 8rem 2rem;
+            padding: 6rem 2rem;
             text-align: center;
             background: radial-gradient(circle at center, #222 0%, #1a1a1a 100%);
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-gray);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; color: var(--text-gray); max-width: 600px; margin: 0 auto 2rem; }
 
         .btn {
             background-color: var(--accent-white);
@@ -64,33 +56,72 @@
             font-weight: 700;
             border-radius: 4px;
             transition: 0.3s;
+            display: inline-block;
         }
 
-        .btn:hover {
-            background-color: var(--text-gray);
-        }
+        .btn:hover { background-color: var(--text-gray); }
 
         .section {
-            padding: 5rem 2rem;
-            max-width: 1000px;
+            padding: 4rem 2rem;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        /* --- THE NEW PROCESS LAYOUT --- */
+        .process-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+
+        .process-wrapper {
+            display: flex;
+            align-items: center;
             gap: 2rem;
-            margin-top: 3rem;
+        }
+
+        .process-steps {
+            flex: 2; /* Takes up 2/3 space */
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 2; /* Keeps text above the bleeding logo */
+        }
+
+        .process-logo-container {
+            flex: 1; /* Takes up 1/3 space */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .process-logo-container img {
+            width: 140%; /* Makes logo large enough to bleed into left section */
+            max-width: 500px;
+            height: auto;
+            opacity: 0.8;
+            margin-left: -20%; /* The "Bleed" effect */
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
         }
 
         .card {
-            background: var(--light-gray);
+            background: rgba(51, 51, 51, 0.9); /* Slight transparency for the bleed */
             padding: 2rem;
             border-radius: 8px;
             border: 1px solid #444;
+            backdrop-filter: blur(5px);
         }
 
-        .card h3 { margin-top: 0; }
+        .card h3 { margin: 0 0 0.5rem 0; color: var(--accent-white); }
+        .card p { margin: 0; color: var(--text-gray); }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .process-wrapper { flex-direction: column; }
+            .process-logo-container img { width: 100%; margin-left: 0; }
+            .hero h1 { font-size: 2.2rem; }
+        }
 
         footer {
             text-align: center;
@@ -104,31 +135,39 @@
 <body>
 
     <header>
-        <div class="logo">INFINIBOLT SOLUTIONS</div>
+        <div class="logo-text">INFINIBOLT SOLUTIONS</div>
         <nav>Engineering the Impossible</nav>
     </header>
 
     <section class="hero">
         <h1>Your Problems, Engineered.</h1>
         <p>Precision 3D design and manufacturing for custom parts, prototypes, and hardware modifications.</p>
-        <!-- Added Google Form link here -->
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Request a Solution</a>
     </section>
 
     <section class="section">
-        <h2 style="text-align:center">The Process</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>1. Consult</h3>
-                <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
+        <h2 class="process-title">The Process</h2>
+        
+        <div class="process-wrapper">
+            <!-- Left Side: Vertical Boxes (2/3) -->
+            <div class="process-steps">
+                <div class="card">
+                    <h3>1. Consult</h3>
+                    <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
+                </div>
+                <div class="card">
+                    <h3>2. Design</h3>
+                    <p>Professional CAD modeling tailored to your specs. We optimize for strength, fitment, and material durability.</p>
+                </div>
+                <div class="card">
+                    <h3>3. Produce</h3>
+                    <p>High-fidelity additive manufacturing using industrial-grade materials like PETG and specialized filaments.</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>2. Design</h3>
-                <p>Professional CAD modeling tailored to your specs. We optimize for strength, fitment, and material durability.</p>
-            </div>
-            <div class="card">
-                <h3>3. Produce</h3>
-                <p>High-fidelity additive manufacturing using industrial-grade materials like PETG and specialized filaments.</p>
+
+            <!-- Right Side: Centered Logo (1/3) -->
+            <div class="process-logo-container">
+                <img src="Gemini_Generated_Image_mq48mq48mq48mq48.png" alt="InfiniBolt Logo">
             </div>
         </div>
     </section>
@@ -137,7 +176,6 @@
         <h2>Start Your Project</h2>
         <p>Ready to build? Submit your details through our request portal.</p>
         <br>
-        <!-- Added Google Form link here -->
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Open Request Form</a>
     </section>
 
