@@ -76,31 +76,31 @@
             margin: 0 auto;
         }
 
-        .process-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            width: 100%;
-        }
-
         .process-layout {
             display: flex;
             gap: 2rem;
         }
 
         .process-steps {
-            flex: 2; /* 2/3 of the width */
+            flex: 2.5; /* Increased from 2 to stretch the boxes further right */
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
 
+        .process-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 1rem; 
+        }
+
         .process-spacer {
-            flex: 1; /* 1/3 of the width, leaves room for logo in background */
+            flex: 1; /* Keeps the right side anchored for the logo */
         }
 
         .card {
-            background: rgba(45, 45, 45, 0.85); /* Semi-transparent to let glitch art show through */
+            background: rgba(45, 45, 45, 0.85); 
             padding: 2rem;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -142,10 +142,11 @@
 
     <section class="process-section">
         <div class="process-container">
-            <h2 class="process-title">The Process</h2>
-            
             <div class="process-layout">
                 <div class="process-steps">
+                    <!-- Title is now INSIDE the steps container to center perfectly over the cards -->
+                    <h2 class="process-title">The Process</h2>
+                    
                     <div class="card">
                         <h3>1. Consult</h3>
                         <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
@@ -160,7 +161,6 @@
                     </div>
                 </div>
                 
-                <!-- Empty spacer to ensure logo in background is visible -->
                 <div class="process-spacer"></div>
             </div>
         </div>
