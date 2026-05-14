@@ -61,7 +61,7 @@
 
         .btn:hover { background-color: var(--text-gray); }
 
-        /* --- THE UPDATED PROCESS SECTION --- */
+        /* --- THE PROCESS SECTION --- */
         .process-section {
             background-image: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.7)), url('Gemini_Generated_Image_8q1eih8q1eih8q1e.png');
             background-size: cover;
@@ -82,7 +82,7 @@
         }
 
         .process-steps {
-            flex: 2.5; /* Increased from 2 to stretch the boxes further right */
+            flex: 2.5; 
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
@@ -96,7 +96,7 @@
         }
 
         .process-spacer {
-            flex: 1; /* Keeps the right side anchored for the logo */
+            flex: 1; 
         }
 
         .card {
@@ -125,6 +125,23 @@
             color: var(--text-gray);
             font-size: 0.9rem;
         }
+
+        /* --- SCROLL ANIMATIONS --- */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px); /* Starts 40px down */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0); /* Slides up to normal position */
+        }
+
+        /* Staggered delays for the progressive pop-up effect */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
     </style>
 </head>
 <body>
@@ -144,18 +161,19 @@
         <div class="process-container">
             <div class="process-layout">
                 <div class="process-steps">
-                    <!-- Title is now INSIDE the steps container to center perfectly over the cards -->
-                    <h2 class="process-title">The Process</h2>
+                    <!-- Title with reveal animation -->
+                    <h2 class="process-title reveal-up">The Process</h2>
                     
-                    <div class="card">
+                    <!-- Cards with reveal animations and staggered delays -->
+                    <div class="card reveal-up delay-1">
                         <h3>1. Consult</h3>
                         <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
                     </div>
-                    <div class="card">
+                    <div class="card reveal-up delay-2">
                         <h3>2. Design</h3>
                         <p>Professional CAD modeling tailored to your specs. We optimize for strength, fitment, and material durability.</p>
                     </div>
-                    <div class="card">
+                    <div class="card reveal-up delay-3">
                         <h3>3. Produce</h3>
                         <p>High-fidelity additive manufacturing using industrial-grade materials like PETG and specialized filaments.</p>
                     </div>
@@ -177,5 +195,29 @@
         <p>&copy; 2026 InfiniBolt Solutions. All Rights Reserved.</p>
     </footer>
 
+    <!-- SCROLL OBSERVER SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Create the observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add the 'active' class when the element comes into view
+                        entry.target.classList.add('active');
+                        
+                        // Optional: Stop observing once it has appeared 
+                        // (prevents it from hiding/showing again if they scroll back up)
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.15 // Triggers when 15% of the card is visible
+            });
+
+            // Find all elements with the 'reveal-up' class and watch them
+            const hiddenElements = document.querySelectorAll('.reveal-up');
+            hiddenElements.forEach((el) => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
