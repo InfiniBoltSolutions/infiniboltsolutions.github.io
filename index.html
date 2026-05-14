@@ -61,69 +61,61 @@
 
         .btn:hover { background-color: var(--text-gray); }
 
-        .section {
-            padding: 4rem 2rem;
+        /* --- THE UPDATED PROCESS SECTION --- */
+        .process-section {
+            background-image: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.7)), url('Gemini_Generated_Image_8q1eih8q1eih8q1e.png');
+            background-size: cover;
+            background-position: center right;
+            padding: 6rem 2rem;
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .process-container {
             max-width: 1100px;
             margin: 0 auto;
         }
 
-        /* --- THE UPDATED PROCESS LAYOUT --- */
-        .process-wrapper {
+        .process-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        .process-layout {
             display: flex;
-            align-items: stretch; /* Ensures right column matches height of left column */
             gap: 2rem;
         }
 
         .process-steps {
-            flex: 2; 
+            flex: 2; /* 2/3 of the width */
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            z-index: 2; 
         }
 
-        .process-title {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
-        }
-
-        .process-logo-container {
-            flex: 1; 
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            position: relative;
-        }
-
-        .process-logo-container img {
-            width: 150%; /* Large enough to bleed into left section */
-            height: 100%; /* Forces image to match the height of the boxes */
-            object-fit: cover; /* Fills the space perfectly without distortion */
-            object-position: center;
-            opacity: 0.8;
-            margin-left: -25%; /* The Bleed effect */
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
-            border-radius: 8px; /* Softens the edges of the background */
+        .process-spacer {
+            flex: 1; /* 1/3 of the width, leaves room for logo in background */
         }
 
         .card {
-            background: rgba(51, 51, 51, 0.9); 
+            background: rgba(45, 45, 45, 0.85); /* Semi-transparent to let glitch art show through */
             padding: 2rem;
             border-radius: 8px;
-            border: 1px solid #444;
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .card h3 { margin: 0 0 0.5rem 0; color: var(--accent-white); }
         .card p { margin: 0; color: var(--text-gray); }
 
         /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .process-wrapper { flex-direction: column; }
-            .process-logo-container img { width: 100%; height: auto; margin-left: 0; }
-            .hero h1 { font-size: 2.2rem; }
+        @media (max-width: 900px) {
+            .process-layout { flex-direction: column; }
+            .process-spacer { display: none; }
+            .process-steps { flex: 1; }
         }
 
         footer {
@@ -148,33 +140,33 @@
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Request a Solution</a>
     </section>
 
-    <section class="section">
-        <div class="process-wrapper">
-            <!-- Left Side: Vertical Boxes & Centered Title -->
-            <div class="process-steps">
-                <h2 class="process-title">The Process</h2>
-                <div class="card">
-                    <h3>1. Consult</h3>
-                    <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
+    <section class="process-section">
+        <div class="process-container">
+            <h2 class="process-title">The Process</h2>
+            
+            <div class="process-layout">
+                <div class="process-steps">
+                    <div class="card">
+                        <h3>1. Consult</h3>
+                        <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. Design</h3>
+                        <p>Professional CAD modeling tailored to your specs. We optimize for strength, fitment, and material durability.</p>
+                    </div>
+                    <div class="card">
+                        <h3>3. Produce</h3>
+                        <p>High-fidelity additive manufacturing using industrial-grade materials like PETG and specialized filaments.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3>2. Design</h3>
-                    <p>Professional CAD modeling tailored to your specs. We optimize for strength, fitment, and material durability.</p>
-                </div>
-                <div class="card">
-                    <h3>3. Produce</h3>
-                    <p>High-fidelity additive manufacturing using industrial-grade materials like PETG and specialized filaments.</p>
-                </div>
-            </div>
-
-            <!-- Right Side: Vertical Stretching Logo -->
-            <div class="process-logo-container">
-                <img src="vertical_logo.png" alt="InfiniBolt Logo">
+                
+                <!-- Empty spacer to ensure logo in background is visible -->
+                <div class="process-spacer"></div>
             </div>
         </div>
     </section>
 
-    <section id="request" class="section" style="text-align:center">
+    <section id="request" class="section" style="padding: 6rem 2rem; text-align:center">
         <h2>Start Your Project</h2>
         <p>Ready to build? Submit your details through our request portal.</p>
         <br>
