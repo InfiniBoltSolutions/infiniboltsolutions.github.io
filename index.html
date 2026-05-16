@@ -49,7 +49,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background-color: #000000; /* FIXED: Sides are now solid black to match the video */
+            background-color: var(--charcoal); /* FIXED: Matches your video's exact charcoal background color */
         }
 
         .hero-video {
@@ -59,7 +59,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain; 
-            background-color: #000000; 
+            background-color: var(--charcoal); 
             z-index: 0;
             pointer-events: none;
         }
@@ -71,23 +71,31 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(26, 26, 26, 0.35); /* Subtle tint to keep text highly legible */
+            background-color: rgba(26, 26, 26, 0.4); 
             z-index: 1;
         }
 
-        /* Content stays visible permanently overlaying the video background */
+        /* FIXED: Re-implemented smooth fade-out structural layout classes */
         .hero-content {
             position: relative;
             z-index: 2;
             text-align: center;
             width: 100%;
             padding: 0 2rem;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
+        }
+
+        .hero-content.fade-out {
+            opacity: 0;
+            visibility: hidden;
         }
 
         .hero h1 { 
             font-size: 3.5rem; 
             margin-bottom: 1rem; 
-            text-shadow: 0 4px 12px rgba(0,0,0,0.9); 
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8); 
         }
         
         .hero p { 
@@ -95,7 +103,7 @@
             color: var(--text-gray); 
             max-width: 600px; 
             margin: 0 auto 2rem; 
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
         .btn {
@@ -107,10 +115,33 @@
             border-radius: 4px;
             transition: 0.3s;
             display: inline-block;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .btn:hover { background-color: var(--text-gray); }
+
+        /* Sleek Unmute Audio Controller */
+        .unmute-btn {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 3;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .unmute-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff;
+        }
 
         /* --- THE PROCESS SECTION --- */
         .process-section {
@@ -213,6 +244,8 @@
             <p>Precision 3D design and manufacturing for custom parts, prototypes, and hardware modifications.</p>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Request a Solution</a>
         </div>
+
+        <button id="unmuteBtn" class="unmute-btn">🔊 Unmute Audio</button>
     </section>
 
     <section class="process-section">
@@ -252,9 +285,38 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const video = document.getElementById('bgVideo');
+            const content = document.getElementById('heroContent');
+            const unmuteBtn = document.getElementById('unmuteBtn');
             
             if (video) {
                 video.muted = true;
+                
+                // FIXED: Re-enabled text fade-out execution precisely 1.5s after rendering begins
+                video.addEventListener('playing', function() {
+                    setTimeout(() => {
+                        if (content) {
+                            content.classList.add('fade-out');
+                            setTimeout(() => {
+                                content.style.display = 'none';
+                            }, 1000); 
+                        }
+                    }, 1500); 
+                });
+
+                // Audio track controller initialization script
+                if (unmuteBtn) {
+                    unmuteBtn.addEventListener('click', function(e) {
+                        e.stopPropagation(); 
+                        if (video.muted) {
+                            video.muted = false;
+                            unmuteBtn.innerHTML = '🔇 Mute Audio';
+                        } else {
+                            video.muted = true;
+                            unmuteBtn.innerHTML = '🔊 Unmute Audio';
+                        }
+                    });
+                }
+
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(() => {
@@ -264,7 +326,7 @@
                 }
             }
 
-            // Scroll reveal animation handler
+            // Intersection Observer Setup
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
