@@ -102,4 +102,99 @@
         .hero p { 
             font-size: 1.2rem; 
             color: var(--text-gray); 
-            max-width: 600px;
+            max-width: 600px; 
+            margin: 0 auto 2rem; 
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .btn {
+            background-color: var(--accent-white);
+            color: var(--charcoal);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 4px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover { background-color: var(--text-gray); }
+
+        /* --- THE PROCESS SECTION --- */
+        .process-section {
+            background-image: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.7)), url('Gemini_Generated_Image_8q1eih8q1eih8q1e.png');
+            background-size: cover;
+            background-position: center right;
+            padding: 6rem 2rem;
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .process-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .process-layout {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .process-steps {
+            flex: 2.5; 
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .process-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 1rem; 
+        }
+
+        .process-spacer {
+            flex: 1; 
+        }
+
+        .card {
+            background: rgba(45, 45, 45, 0.85); 
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 { margin: 0 0 0.5rem 0; color: var(--accent-white); }
+        .card p { margin: 0; color: var(--text-gray); }
+
+        @media (max-width: 900px) {
+            .process-layout { flex-direction: column; }
+            .process-spacer { display: none; }
+            .process-steps { flex: 1; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem;
+            border-top: 1px solid var(--light-gray);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* --- SCROLL ANIMATIONS --- */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0
