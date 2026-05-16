@@ -42,24 +42,25 @@
         /* --- THE CINEMATIC HERO SECTION --- */
         .hero {
             position: relative;
-            height: 80vh; 
+            height: 75vh; 
             min-height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background-color: var(--charcoal); /* Removed image fallback entirely */
+            background-color: var(--charcoal);
         }
 
-        /* The Video Background - Fixed Centering & Viewport Dimensions */
+        /* Fixed Framing: Keeps video tightly bound inside the Hero section bounds */
         .hero-video {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw; 
-            height: 100vh; 
-            object-fit: cover; 
-            object-position: center center; 
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            object-position: center center;
             z-index: 0;
             pointer-events: none;
         }
@@ -75,20 +76,21 @@
             z-index: 1;
         }
 
-        /* The Content that will fade away */
+        /* Active fade handling controlled dynamically via JavaScript */
         .hero-content {
             position: relative;
             z-index: 2;
             text-align: center;
             width: 100%;
             padding: 0 2rem;
-            animation: fadeOutContent 1s forwards; 
-            animation-delay: 1.5s; 
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
         }
 
-        @keyframes fadeOutContent {
-            0% { opacity: 1; visibility: visible; }
-            100% { opacity: 0; visibility: hidden; }
+        .hero-content.fade-out {
+            opacity: 0;
+            visibility: hidden;
         }
 
         .hero h1 { 
@@ -213,7 +215,7 @@
         
         <div class="hero-overlay"></div>
         
-        <div class="hero-content">
+        <div id="heroContent" class="hero-content">
             <h1>Your Problems, Engineered.</h1>
             <p>Precision 3D design and manufacturing for custom parts, prototypes, and hardware modifications.</p>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Request a Solution</a>
@@ -256,24 +258,35 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Force play initialization script to clear native browser restrictions
             const video = document.getElementById('bgVideo');
+            const content = document.getElementById('heroContent');
+            
             if (video) {
                 video.muted = true;
+                
+                // Triggers text handling strictly when the video stream actually begins rendering
+                video.addEventListener('playing', function() {
+                    setTimeout(() => {
+                        if (content) {
+                            content.classList.add('fade-out');
+                            // Disposes layout footprint after opacity drops to allow clear viewport interaction
+                            setTimeout(() => {
+                                content.style.display = 'none';
+                            }, 1000); 
+                        }
+                    }, 1500); // Holds text live on screen for exactly 1.5s after playback fires
+                });
+
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        console.log("Playback successfully initialized.");
-                    }).catch(error => {
-                        console.log("Autoplay blocked, attempting re-initialization...");
-                        // Hard override loop injection if engine stumbles
+                    playPromise.catch(() => {
                         video.muted = true;
                         video.play();
                     });
                 }
             }
 
-            // Scroll reveal visibility handling
+            // Scroll reveal observer logic
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
