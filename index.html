@@ -49,7 +49,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background-color: var(--charcoal); /* FIXED: Matches your video's exact charcoal background color */
+            background-color: #000000; /* FIXED: True black side bars */
         }
 
         .hero-video {
@@ -59,7 +59,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain; 
-            background-color: var(--charcoal); 
+            background-color: #000000; /* FIXED: Canvas fill forced to black */
             z-index: 0;
             pointer-events: none;
         }
@@ -75,7 +75,6 @@
             z-index: 1;
         }
 
-        /* FIXED: Re-implemented smooth fade-out structural layout classes */
         .hero-content {
             position: relative;
             z-index: 2;
@@ -119,7 +118,7 @@
 
         .btn:hover { background-color: var(--text-gray); }
 
-        /* Sleek Unmute Audio Controller */
+        /* Unmute Audio Button styling */
         .unmute-btn {
             position: absolute;
             bottom: 1.5rem;
@@ -182,7 +181,7 @@
         }
 
         .card {
-            background: rgba(45, 45, 45, 0.85); 
+            background: rgba(10, 25, 47, 0.85); /* FIXED: Changed boxes to clear Header Navy Blue */
             padding: 2rem;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -200,9 +199,18 @@
             .hero { aspect-ratio: unset; height: 50vh; } 
         }
 
+        /* --- CALL TO ACTION & FOOTER COLOR FRAMING --- */
+        #request {
+            background-color: var(--navy-blue); /* FIXED: Styled top box to matching Header Navy Blue */
+            padding: 6rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--light-gray);
+        }
+
         footer {
             text-align: center;
             padding: 4rem;
+            background-color: #000000; /* FIXED: Bottom box is now deep solid black */
             border-top: 1px solid var(--light-gray);
             color: var(--text-gray);
             font-size: 0.9rem;
@@ -271,7 +279,7 @@
         </div>
     </section>
 
-    <section id="request" class="section" style="padding: 6rem 2rem; text-align:center">
+    <section id="request">
         <h2>Start Your Project</h2>
         <p>Ready to build? Submit your details through our request portal.</p>
         <br>
@@ -291,7 +299,7 @@
             if (video) {
                 video.muted = true;
                 
-                // FIXED: Re-enabled text fade-out execution precisely 1.5s after rendering begins
+                // Triggers structural layout content fading 1.5s post-render kick-off
                 video.addEventListener('playing', function() {
                     setTimeout(() => {
                         if (content) {
@@ -303,7 +311,6 @@
                     }, 1500); 
                 });
 
-                // Audio track controller initialization script
                 if (unmuteBtn) {
                     unmuteBtn.addEventListener('click', function(e) {
                         e.stopPropagation(); 
@@ -326,7 +333,7 @@
                 }
             }
 
-            // Intersection Observer Setup
+            // Scroll reveal animation handling
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
