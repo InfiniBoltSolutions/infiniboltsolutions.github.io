@@ -39,14 +39,74 @@
             letter-spacing: -1px;
         }
 
+        /* --- THE CINEMATIC HERO SECTION --- */
         .hero {
-            padding: 6rem 2rem;
-            text-align: center;
-            background: radial-gradient(circle at center, #222 0%, #1a1a1a 100%);
+            position: relative;
+            height: 80vh; 
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: var(--charcoal);
         }
 
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.1rem; color: var(--text-gray); max-width: 600px; margin: 0 auto 2rem; }
+        /* The Video Background */
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        /* The Dark Overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 26, 26, 0.4); 
+            z-index: 1;
+        }
+
+        /* The Content that will fade away */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            padding: 0 2rem;
+            
+            /* The Fade Out Animation */
+            animation: fadeOutContent 1s forwards; 
+            animation-delay: 1.5s; 
+        }
+
+        @keyframes fadeOutContent {
+            0% { opacity: 1; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .hero h1 { 
+            font-size: 3.5rem; 
+            margin-bottom: 1rem; 
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8); 
+        }
+        
+        .hero p { 
+            font-size: 1.2rem; 
+            color: var(--text-gray); 
+            max-width: 600px; 
+            margin: 0 auto 2rem; 
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
 
         .btn {
             background-color: var(--accent-white);
@@ -111,7 +171,6 @@
         .card h3 { margin: 0 0 0.5rem 0; color: var(--accent-white); }
         .card p { margin: 0; color: var(--text-gray); }
 
-        /* Mobile Responsiveness */
         @media (max-width: 900px) {
             .process-layout { flex-direction: column; }
             .process-spacer { display: none; }
@@ -129,16 +188,15 @@
         /* --- SCROLL ANIMATIONS --- */
         .reveal-up {
             opacity: 0;
-            transform: translateY(40px); /* Starts 40px down */
+            transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
         .reveal-up.active {
             opacity: 1;
-            transform: translateY(0); /* Slides up to normal position */
+            transform: translateY(0);
         }
 
-        /* Staggered delays for the progressive pop-up effect */
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.3s; }
         .delay-3 { transition-delay: 0.5s; }
@@ -152,19 +210,24 @@
     </header>
 
     <section class="hero">
-        <h1>Your Problems, Engineered.</h1>
-        <p>Precision 3D design and manufacturing for custom parts, prototypes, and hardware modifications.</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Request a Solution</a>
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="InfiniBolt Solutions - Promo Video (3).mov" type="video/quicktime">
+        </video>
+        
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <h1>Your Problems, Engineered.</h1>
+            <p>Precision 3D design and manufacturing for custom parts, prototypes, and hardware modifications.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Request a Solution</a>
+        </div>
     </section>
 
     <section class="process-section">
         <div class="process-container">
             <div class="process-layout">
                 <div class="process-steps">
-                    <!-- Title with reveal animation -->
                     <h2 class="process-title reveal-up">The Process</h2>
-                    
-                    <!-- Cards with reveal animations and staggered delays -->
                     <div class="card reveal-up delay-1">
                         <h3>1. Consult</h3>
                         <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
@@ -178,7 +241,6 @@
                         <p>High-fidelity additive manufacturing using industrial-grade materials like PETG and specialized filaments.</p>
                     </div>
                 </div>
-                
                 <div class="process-spacer"></div>
             </div>
         </div>
@@ -195,26 +257,19 @@
         <p>&copy; 2026 InfiniBolt Solutions. All Rights Reserved.</p>
     </footer>
 
-    <!-- SCROLL OBSERVER SCRIPT -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Create the observer
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Add the 'active' class when the element comes into view
                         entry.target.classList.add('active');
-                        
-                        // Optional: Stop observing once it has appeared 
-                        // (prevents it from hiding/showing again if they scroll back up)
                         observer.unobserve(entry.target);
                     }
                 });
             }, { 
-                threshold: 0.15 // Triggers when 15% of the card is visible
+                threshold: 0.15 
             });
 
-            // Find all elements with the 'reveal-up' class and watch them
             const hiddenElements = document.querySelectorAll('.reveal-up');
             hiddenElements.forEach((el) => observer.observe(el));
         });
