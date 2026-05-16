@@ -43,25 +43,23 @@
         .hero {
             position: relative;
             width: 100%;
-            /* Uses the natural widescreen format of your video to set the exact container height */
             aspect-ratio: 16 / 9; 
-            max-height: 85vh; /* Prevents the video from becoming overwhelmingly tall on massive screens */
+            max-height: 85vh; 
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background-color: var(--charcoal);
+            background-color: #000000; /* FIXED: Sides are now solid black to match the video */
         }
 
-        /* Responsive Framing: Scales fluidly to ensure the entire video frames correctly */
         .hero-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Keeps the full shot perfectly inside the frame with no clipping */
-            background-color: #000; /* Handles empty side padding if aspect ratios skew slightly */
+            object-fit: contain; 
+            background-color: #000000; 
             z-index: 0;
             pointer-events: none;
         }
@@ -73,31 +71,23 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(26, 26, 26, 0.4); 
+            background-color: rgba(26, 26, 26, 0.35); /* Subtle tint to keep text highly legible */
             z-index: 1;
         }
 
-        /* Dynamic fade handling controlled via JavaScript */
+        /* Content stays visible permanently overlaying the video background */
         .hero-content {
             position: relative;
             z-index: 2;
             text-align: center;
             width: 100%;
             padding: 0 2rem;
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 1s ease-out, visibility 1s ease-out;
-        }
-
-        .hero-content.fade-out {
-            opacity: 0;
-            visibility: hidden;
         }
 
         .hero h1 { 
             font-size: 3.5rem; 
             margin-bottom: 1rem; 
-            text-shadow: 0 4px 10px rgba(0,0,0,0.8); 
+            text-shadow: 0 4px 12px rgba(0,0,0,0.9); 
         }
         
         .hero p { 
@@ -105,7 +95,7 @@
             color: var(--text-gray); 
             max-width: 600px; 
             margin: 0 auto 2rem; 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
         }
 
         .btn {
@@ -117,6 +107,7 @@
             border-radius: 4px;
             transition: 0.3s;
             display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .btn:hover { background-color: var(--text-gray); }
@@ -175,7 +166,7 @@
             .process-layout { flex-direction: column; }
             .process-spacer { display: none; }
             .process-steps { flex: 1; }
-            .hero { aspect-ratio: unset; height: 50vh; } /* Reverts to stable layout framing on small mobile viewports */
+            .hero { aspect-ratio: unset; height: 50vh; } 
         }
 
         footer {
@@ -211,7 +202,7 @@
     </header>
 
     <section class="hero">
-        <video id="bgVideo" autoplay loop muted playsinline preload="auto" class="hero-video">
+        <video id="bgVideo" autoplay muted playsinline preload="auto" class="hero-video">
             <source src="promo.mp4" type="video/mp4">
         </video>
         
@@ -261,23 +252,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const video = document.getElementById('bgVideo');
-            const content = document.getElementById('heroContent');
             
             if (video) {
                 video.muted = true;
-                
-                // Triggers text animation strictly when the video pipeline successfully plays
-                video.addEventListener('playing', function() {
-                    setTimeout(() => {
-                        if (content) {
-                            content.classList.add('fade-out');
-                            setTimeout(() => {
-                                content.style.display = 'none';
-                            }, 1000); 
-                        }
-                    }, 1500); 
-                });
-
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(() => {
@@ -287,7 +264,7 @@
                 }
             }
 
-            // Scroll reveal visibility system
+            // Scroll reveal animation handler
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
