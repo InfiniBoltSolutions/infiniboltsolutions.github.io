@@ -42,8 +42,10 @@
         /* --- THE CINEMATIC HERO SECTION --- */
         .hero {
             position: relative;
-            height: 75vh; 
-            min-height: 500px;
+            width: 100%;
+            /* Uses the natural widescreen format of your video to set the exact container height */
+            aspect-ratio: 16 / 9; 
+            max-height: 85vh; /* Prevents the video from becoming overwhelmingly tall on massive screens */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -51,16 +53,15 @@
             background-color: var(--charcoal);
         }
 
-        /* Fixed Framing: Keeps video tightly bound inside the Hero section bounds */
+        /* Responsive Framing: Scales fluidly to ensure the entire video frames correctly */
         .hero-video {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            object-position: center center;
+            object-fit: contain; /* Keeps the full shot perfectly inside the frame with no clipping */
+            background-color: #000; /* Handles empty side padding if aspect ratios skew slightly */
             z-index: 0;
             pointer-events: none;
         }
@@ -76,7 +77,7 @@
             z-index: 1;
         }
 
-        /* Active fade handling controlled dynamically via JavaScript */
+        /* Dynamic fade handling controlled via JavaScript */
         .hero-content {
             position: relative;
             z-index: 2;
@@ -174,6 +175,7 @@
             .process-layout { flex-direction: column; }
             .process-spacer { display: none; }
             .process-steps { flex: 1; }
+            .hero { aspect-ratio: unset; height: 50vh; } /* Reverts to stable layout framing on small mobile viewports */
         }
 
         footer {
@@ -264,17 +266,16 @@
             if (video) {
                 video.muted = true;
                 
-                // Triggers text handling strictly when the video stream actually begins rendering
+                // Triggers text animation strictly when the video pipeline successfully plays
                 video.addEventListener('playing', function() {
                     setTimeout(() => {
                         if (content) {
                             content.classList.add('fade-out');
-                            // Disposes layout footprint after opacity drops to allow clear viewport interaction
                             setTimeout(() => {
                                 content.style.display = 'none';
                             }, 1000); 
                         }
-                    }, 1500); // Holds text live on screen for exactly 1.5s after playback fires
+                    }, 1500); 
                 });
 
                 const playPromise = video.play();
@@ -286,7 +287,7 @@
                 }
             }
 
-            // Scroll reveal observer logic
+            // Scroll reveal visibility system
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
