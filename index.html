@@ -48,12 +48,10 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            /* FALLBACK: Shows the glitch art if the video loads slowly! */
-            background: linear-gradient(rgba(26, 26, 26, 0.4), rgba(26, 26, 26, 0.4)), url('Gemini_Generated_Image_8q1eih8q1eih8q1e.png');
-            background-size: cover;
-            background-position: center;
+            background-color: var(--charcoal); /* Removed image fallback entirely */
         }
 
+        /* The Video Background - Fixed Centering & Viewport Dimensions */
         .hero-video {
             position: absolute;
             top: 0;
@@ -66,6 +64,7 @@
             pointer-events: none;
         }
 
+        /* The Dark Overlay */
         .hero-overlay {
             position: absolute;
             top: 0;
@@ -76,6 +75,7 @@
             z-index: 1;
         }
 
+        /* The Content that will fade away */
         .hero-content {
             position: relative;
             z-index: 2;
@@ -207,7 +207,7 @@
     </header>
 
     <section class="hero">
-        <video autoplay loop muted playsinline class="hero-video">
+        <video id="bgVideo" autoplay loop muted playsinline preload="auto" class="hero-video">
             <source src="promo.mp4" type="video/mp4">
         </video>
         
@@ -256,6 +256,24 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Force play initialization script to clear native browser restrictions
+            const video = document.getElementById('bgVideo');
+            if (video) {
+                video.muted = true;
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log("Playback successfully initialized.");
+                    }).catch(error => {
+                        console.log("Autoplay blocked, attempting re-initialization...");
+                        // Hard override loop injection if engine stumbles
+                        video.muted = true;
+                        video.play();
+                    });
+                }
+            }
+
+            // Scroll reveal visibility handling
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
