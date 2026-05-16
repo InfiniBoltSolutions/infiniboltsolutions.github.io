@@ -48,10 +48,12 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background-color: var(--charcoal);
+            /* FALLBACK: Shows the glitch art if the video loads slowly! */
+            background: linear-gradient(rgba(26, 26, 26, 0.4), rgba(26, 26, 26, 0.4)), url('Gemini_Generated_Image_8q1eih8q1eih8q1e.png');
+            background-size: cover;
+            background-position: center;
         }
 
-        /* The Video Background - Fixed Centering */
         .hero-video {
             position: absolute;
             top: 0;
@@ -64,7 +66,6 @@
             pointer-events: none;
         }
 
-        /* The Dark Overlay */
         .hero-overlay {
             position: absolute;
             top: 0;
@@ -75,15 +76,12 @@
             z-index: 1;
         }
 
-        /* The Content that will fade away */
         .hero-content {
             position: relative;
             z-index: 2;
             text-align: center;
             width: 100%;
             padding: 0 2rem;
-            
-            /* The Fade Out Animation */
             animation: fadeOutContent 1s forwards; 
             animation-delay: 1.5s; 
         }
@@ -197,4 +195,81 @@
         }
 
         .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">INFINIBOLT SOLUTIONS</div>
+        <nav>Engineering the Impossible</nav>
+    </header>
+
+    <section class="hero">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="promo.mp4" type="video/mp4">
+        </video>
+        
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <h1>Your Problems, Engineered.</h1>
+            <p>Precision 3D design and manufacturing for custom parts, prototypes, and hardware modifications.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Request a Solution</a>
+        </div>
+    </section>
+
+    <section class="process-section">
+        <div class="process-container">
+            <div class="process-layout">
+                <div class="process-steps">
+                    <h2 class="process-title reveal-up">The Process</h2>
+                    <div class="card reveal-up delay-1">
+                        <h3>1. Consult</h3>
+                        <p>Define the problem. Whether it's a broken mechanical part or a custom PEV modification, we analyze the requirements.</p>
+                    </div>
+                    <div class="card reveal-up delay-2">
+                        <h3>2. Design</h3>
+                        <p>Professional CAD modeling tailored to your specs. We optimize for strength, fitment, and material durability.</p>
+                    </div>
+                    <div class="card reveal-up delay-3">
+                        <h3>3. Produce</h3>
+                        <p>High-fidelity additive manufacturing using industrial-grade materials like PETG and specialized filaments.</p>
+                    </div>
+                </div>
+                <div class="process-spacer"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="request" class="section" style="padding: 6rem 2rem; text-align:center">
+        <h2>Start Your Project</h2>
+        <p>Ready to build? Submit your details through our request portal.</p>
+        <br>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-9dCv4EoiFDLQs89rxMx2WpP7dyU_dOIeCmzqzAwbYtggQg/viewform?usp=header" class="btn" target="_blank">Open Request Form</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 InfiniBolt Solutions. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.15 
+            });
+
+            const hiddenElements = document.querySelectorAll('.reveal-up');
+            hiddenElements.forEach((el) => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
